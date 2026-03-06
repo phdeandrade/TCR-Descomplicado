@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre o TCR - TCR Descomplicado</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body data-theme="dark">
+
+<nav>
+    <a href="{{ url_for('index') }}" class="logo">TCR Descomplicado</a>
+    <div class="nav-links">
+        <a href="{{ url_for('about') }}">Sobre o TCR</a>
+        <a href="{{ url_for('info') }}">Sobre o Projeto</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    </div>
+</nav>
+
+<main>
+    <h1>Sobre o Teorema Chinês dos Restos</h1>
+    <p>O Teorema Chinês dos Restos (TCR) é um resultado fundamental na aritmética modular que permite resolver sistemas de congruências lineares[cite: 2, 3].</p>
+    
+    <h2>Congruências Lineares</h2>
+    <p>Uma congruência linear possui o formato $ax \equiv b \pmod n$, onde $a, b, n$ são inteiros e $x$ é a incógnita[cite: 11].</p>
+    <p>Para verificar se há solução, analisamos se $d = \text{mdc}(a, n)$ divide $b$[cite: 16, 17, 18]. Se não dividir, como em $2x \equiv 1 \pmod 4$ onde $\text{mdc}(2,4) = 2$ não divide 1, o sistema não tem solução[cite: 13, 19, 20].</p>
+    
+    <h2>Soluções</h2>
+    <p>Quando a congruência tem solução, ela possui exatamente $d$ soluções não-congruentes dois a dois[cite: 55, 56].</p>
+    <p>Para encontrar a solução e calcular inversos modulares, utiliza-se o Algoritmo de Euclides estendido[cite: 57, 169]. Para a inversão, é obrigatório que $\text{mdc}(a, m) = 1$[cite: 125, 170].</p>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p>Computação UFCG - FMCC 2 [cite: 1, 2]</p>
+        <p>Matemática para Computação 2 [cite: 2]</p>
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

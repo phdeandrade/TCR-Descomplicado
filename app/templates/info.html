@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre o Projeto - TCR Descomplicado</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body data-theme="dark">
+
+<nav>
+    <a href="{{ url_for('index') }}" class="logo">TCR Descomplicado</a>
+    <div class="nav-links">
+        <a href="{{ url_for('about') }}">Sobre o TCR</a>
+        <a href="{{ url_for('info') }}">Sobre o Projeto</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    </div>
+</nav>
+
+<main>
+    <h1>Sobre o Projeto</h1>
+    <p>O "TCR Descomplicado" detalha o passo a passo da resolução de sistemas de congruência linear, facilitando a visualização de algoritmos de teoria dos números.</p>
+    <p>Este projeto tem vínculos com os estudos desenvolvidos na disciplina de Fundamentos de Matemática para Ciência da Computação 2 (FMCC 2), sob a orientação do professor Tiago Massoni, no curso de Computação da UFCG[cite: 1, 2, 3].</p>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p>Computação UFCG - FMCC 2 [cite: 1, 2]</p>
+        <p>Matemática para Computação 2 [cite: 2]</p>
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
