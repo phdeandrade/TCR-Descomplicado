@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='img/icone.png') }}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TCR Descomplicado</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -30,7 +31,10 @@
 <body data-theme="dark">
 
 <nav>
-    <a href="{{ url_for('index') }}" class="logo">TCR Descomplicado</a>
+    <a href="{{ url_for('index') }}" class="logo">
+        <img src="{{ url_for('static', filename='img/icone.png') }}" alt="Ícone" style="height: 30px; width: 30px; vertical-align: middle; margin-right: 10px;">
+        TCR Descomplicado
+    </a>
     <div class="nav-links">
         <a href="{{ url_for('about') }}">Sobre o TCR</a>
         <a href="{{ url_for('info') }}">Sobre o Projeto</a>
