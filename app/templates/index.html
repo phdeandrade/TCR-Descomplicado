@@ -22,8 +22,13 @@
         line-height: 1.5;
     }
     
-    .equation-row input[type="text"] {
+    .equation-row .eq-input {
         width: 120px;
+        text-align: center;
+    }
+
+    .equation-row .num-input {
+        width: 60px;
         text-align: center;
     }
 </style>
@@ -48,13 +53,15 @@
     <div class="equation-container">
         <div id="equations-list">
             <div class="equation-row">
-                <input type="text" value="x - 3" placeholder="Ex: 2x + 1">
-                ≡ <input type="number" value="5"> (mod <input type="number" value="10">)
+                <input type="text" class="eq-input" value="x - 3" placeholder="Ex: 2x + 1">
+                ≡ <input type="text" class="num-input" value="5" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> 
+                (mod <input type="text" class="num-input" value="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">)
                 <button class="btn-remove" onclick="removeEquation(this)">✖</button>
             </div>
             <div class="equation-row">
-                <input type="text" value="17x" placeholder="Ex: x - 2">
-                ≡ <input type="number" value="5"> (mod <input type="number" value="29">)
+                <input type="text" class="eq-input" value="17x" placeholder="Ex: x - 2">
+                ≡ <input type="text" class="num-input" value="5" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> 
+                (mod <input type="text" class="num-input" value="29" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">)
                 <button class="btn-remove" onclick="removeEquation(this)">✖</button>
             </div>
         </div>

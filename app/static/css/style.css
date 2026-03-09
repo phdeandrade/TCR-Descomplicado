@@ -134,13 +134,7 @@ p {
     flex-wrap: wrap;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"], input[type="text"] {
+.equation-row input[type="text"] {
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -150,17 +144,17 @@ input[type="number"], input[type="text"] {
     text-align: center;
 }
 
-input[type="number"] {
-    width: 60px;
+.equation-row input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-blue);
 }
 
-.equation-row input[type="text"] {
+.equation-row .eq-input {
     width: 120px;
 }
 
-input[type="number"]:focus, input[type="text"]:focus {
-    outline: none;
-    border-color: var(--primary-blue);
+.equation-row .num-input {
+    width: 60px;
 }
 
 .btn {
