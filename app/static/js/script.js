@@ -115,18 +115,39 @@ function collectEquationsData() {
     return { "equacoes": equacoesParaBackend };
 }
 
-function generateSteps() {
+async function generateSteps() {
     const dados = collectEquationsData();
-    
     if (!dados) return; 
 
-    console.log("JSON pronto para enviar ao Backend em Python:", JSON.stringify(dados, null, 2));
-
-    const solution = document.getElementById('solution-container');
-    if (solution) {
-        solution.style.display = 'block';
-    }
+    const solutionContainer = document.getElementById('solution-container');
     
-    // NOTA FUTURA: Quando o código Python do tcr_solver.py estiver pronto, 
-    // é aqui dentro que irá apagar o console.log e colocar o comando fetch('/resolver', ...)
+    solutionContainer.style.display = 'block';
+    solutionContainer.innerHTML = '<h2>Resolução Passo a Passo</h2><p>Calculando a magia do TCR...</p>';
+
+    try {
+        const resposta = await fetch('/resolver', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
+        });
+
+        const resultado = await resposta.json();
+
+        if (resultado.status === "sucesso") {
+            solutionContainer.innerHTML = '<h2>Resolução Passo a Passo</h2>' + resultado.mensagem;
+            
+            if (window.MathJax) {
+                MathJax.typesetPromise([solutionContainer]);
+            }
+        } else {
+            solutionContainer.innerHTML = `<h2>Resolução Interrompida</h2>
+                                           <p style="color: var(--danger-color); font-weight: bold;">${resultado.mensagem}</p>`;
+        }
+
+    } catch (erro) {
+        console.error("Erro de conexão:", erro);
+        solutionContainer.innerHTML = '<h2>Erro de Servidor</h2><p>Não foi possível conectar ao backend. Verifique se o Flask está rodando!</p>';
+    }
 }
