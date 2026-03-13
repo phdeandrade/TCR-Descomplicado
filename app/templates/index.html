@@ -3,7 +3,6 @@
 {% block title %}TCR Descomplicado{% endblock %}
 
 {% block head %}
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script>
     MathJax = {
         tex: {
@@ -37,6 +36,7 @@
             <button class="btn-remove" onclick="removeEquation(this)">✖</button>
         </div>
     </div>
+    <div id="mensagem-erro"></div>
     <button class="btn btn-add" onclick="addEquation()">+ Adicionar equação</button>
     <button class="btn btn-generate" onclick="generateSteps()">GERAR PASSO A PASSO</button>
 </div>

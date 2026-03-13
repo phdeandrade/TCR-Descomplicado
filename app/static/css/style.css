@@ -102,7 +102,7 @@ nav {
     align-items: center;
 }
 
-.nav-links a {
+.nav-links .nav-link {
     text-decoration: none;
     color: var(--text-muted);
     font-weight: 500;
@@ -110,8 +110,9 @@ nav {
     transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links .nav-link.ativo {
     color: var(--primary);
+    font-weight: 600;
 }
 
 .theme-toggle {
@@ -145,6 +146,42 @@ main {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { 
+        opacity: 1; 
+        max-height: 100px;  /* Alto o suficiente pra qualquer mensagem de erro */
+        margin-bottom: 1rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    to { 
+        opacity: 0; 
+        max-height: 0;       /* O espaço colapsa junto com a opacidade */
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.erro-inline {
+    background-color: rgba(248, 81, 73, 0.1);
+    border-left: 4px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    overflow: hidden;        /* Necessário para o colapso funcionar */
+    max-height: 100px;       /* Estado inicial explícito */
+    animation: fadeIn 0.3s ease;
+}
+
+.erro-inline.sumindo {
+    animation: fadeOut 0.5s ease forwards;
+    overflow: hidden; /* Impede que o conteúdo vaze durante o colapso */
 }
 
 /* ============================================
@@ -381,4 +418,56 @@ footer {
 
 .social-links a:hover {
     opacity: 0.75;
+}
+
+.erro-inline {
+    background-color: rgba(248, 81, 73, 0.1);
+    border-left: 4px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+
+    /* Animação de entrada */
+    animation: fadeIn 0.3s ease;
+}
+
+#barra-navegacao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+#contador-passos {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+#barra-navegacao button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--step-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+#barra-navegacao button:hover:not(:disabled) {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+#barra-navegacao button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }

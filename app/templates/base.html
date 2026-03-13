@@ -17,10 +17,16 @@
         TCR Descomplicado
     </a>
     <div class="nav-links">
-        <a href="{{ url_for('about') }}">Sobre o TCR</a>
-        <a href="{{ url_for('info') }}">Sobre o Projeto</a>
-        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-    </div>
+    <a href="{{ url_for('about') }}"
+       class="nav-link {{ 'ativo' if request.endpoint == 'about' else '' }}">
+        Sobre o TCR
+    </a>
+    <a href="{{ url_for('info') }}"
+       class="nav-link {{ 'ativo' if request.endpoint == 'info' else '' }}">
+        Sobre o Projeto
+    </a>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+</div>
 </nav>
 
 <main>
