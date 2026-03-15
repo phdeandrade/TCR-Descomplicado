@@ -60,7 +60,7 @@ def passo1_verificacao(equacoes):
         else:
             linhas.append(
                 f"&bull; Equação {i}: $\\text{{mdc}}({a_mod}, {n}) = {d}$, "
-                f"que divide {C}. OK!"
+                f"que divide {C}. <strong style='color: var(--success-color);'>OK!</strong>"
             )
 
     if not equacoes_validas:
@@ -70,7 +70,7 @@ def passo1_verificacao(equacoes):
         )
         return erro_precoce("Passo 1: Verificação da solução", linhas)
 
-    linhas.append("<br><strong>Conclusão:</strong> O sistema é válido e pode ser resolvido!")
+    linhas.append("<br><strong style='color: var(--success-color);'>Conclusão:</strong> O sistema é válido e pode ser resolvido!")
     return linhas
 
 

@@ -13,6 +13,7 @@
     --step-bg: #f1f3f5;
     --step-border: #0d6efd;
     --danger-color: #dc3545;
+    --success-color: #198754;
     --nav-bg: #ffffff;
     --blockquote-bg: #f1f3f5;
     --blockquote-border: #0d6efd;
@@ -46,6 +47,7 @@
 
     /* Outros */
     --danger-color: #f85149;
+    --success-color: #3fb950;
     --blockquote-border: #58a6ff;
 }
 
