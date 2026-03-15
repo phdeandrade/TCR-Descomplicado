@@ -19,8 +19,20 @@ def passo1_simplificacao(equacoes):
     for i, eq in enumerate(equacoes, start=1):
         a, b, c, n = eq.get('a', 1), eq.get('b', 0), eq.get('c', 0), eq.get('n', 1)
 
-        C = (c - b) % n
+        if n <= 1:
+            texto = f"<strong>Equação {i}:</strong> O módulo da equação deve ser estritamente maior que 1 (recebido mod {n}). <strong style='color: var(--danger-color);'>Sistema Inválido!</strong><br>"
+            linhas.append(texto)
+            return erro_precoce("Passo 1: Simplificação das equações", linhas)
+
         a_mod = a % n
+        if a_mod == 0:
+            eq_original = f"{a}x {formatar_sinal(b)} \\equiv {c} \\pmod{{{n}}}"
+            texto = f"<strong>Equação {i}:</strong> ${eq_original}$<br>"
+            texto += f"O coeficiente de $x$ é múltiplo do módulo ($\\equiv 0 \\pmod{{{n}}}$). Isso anula a variável $x$, tornando o sistema impossível de ser calculado pelo TCR.<br>"
+            linhas.append(texto)
+            return erro_precoce("Passo 1: Simplificação das equações", linhas)
+        
+        C = (c - b) % n
         d = math.gcd(a_mod, n)
         
         eq_original = f"{a}x {formatar_sinal(b)} \\equiv {c} \\pmod{{{n}}}"
