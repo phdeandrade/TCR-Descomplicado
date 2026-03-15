@@ -47,7 +47,7 @@ function addEquation() {
     
     newRow.innerHTML = `
         <input type="text" class="eq-input" placeholder="Ex: 2x + 1">
-        ≡ <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> 
+        ≡ <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9-]/g, '')"> 
         (mod <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">)
         <button class="btn-remove" onclick="removeEquation(this)">✖</button>
     `;
@@ -110,6 +110,12 @@ function collectEquationsData() {
         if (!eqInput || !cInput || !nInput) {
             mostrarErro("Por favor, preencha todos os campos antes de gerar o passo a passo.");
             return null; 
+        }
+
+        const nValor = parseInt(nInput, 10);
+        if (nValor <= 1) {
+            mostrarErro(`O módulo deve ser um número maior que 1 (você digitou mod ${nValor}).`);
+            return null;
         }
         
         const parsedEq = parseEquationString(eqInput);
