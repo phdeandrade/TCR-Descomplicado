@@ -117,18 +117,29 @@ function collectEquationsData() {
             mostrarErro(`O módulo deve ser um número maior que 1 (você digitou mod ${nValor}).`);
             return null;
         }
+
+        if (!/^-?\d+$/.test(cInput)) {
+            mostrarErro(`O valor após a igualdade ("${cInput}") não é um formato de número válido.`);
+            return null;
+        }
+        const cValor = parseInt(cInput, 10);
         
         const parsedEq = parseEquationString(eqInput);
         if (!parsedEq) {
             mostrarErro(`A equação "${eqInput}" está num formato inválido. Use formatos como "2x + 1" ou "x - 3".`);
             return null;
         }
+
+        if (parsedEq.a % nValor === 0) {
+            mostrarErro(`O coeficiente de x não pode ser múltiplo do módulo (na equação "${eqInput}"). Isso anula a variável x!`);
+            return null;
+        }
         
         equacoesParaBackend.push({
             "a": parsedEq.a,             // termo dependente de x
             "b": parsedEq.b,             // termo independente com sinal (0 se não houver)
-            "c": parseInt(cInput, 10),   // resultado da congruência
-            "n": parseInt(nInput, 10)    // módulo
+            "c": cValor,                 // resultado da congruência
+            "n": nValor                  // módulo
         });
     }
     
