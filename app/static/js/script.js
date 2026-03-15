@@ -4,6 +4,9 @@ let passoAtual = 0;
 // Lista de todos os elementos .step encontrados no DOM
 let todosOsPassos = [];
 
+// Variável para saber se estamos na tela final
+let modoResumo = false;
+
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     const themeBtn = document.querySelector('.theme-toggle');
@@ -208,6 +211,7 @@ function iniciarNavegacao() {
     // Captura todos os .step que o backend acabou de inserir no DOM
     todosOsPassos = Array.from(document.querySelectorAll('#solution-container .step'));
     passoAtual = 0;
+    modoResumo = false;
 
     // Esconde todos os passos inicialmente
     todosOsPassos.forEach(passo => passo.style.display = 'none');
@@ -217,10 +221,9 @@ function iniciarNavegacao() {
 }
 
 function irParaPasso(indice) {
-    // Esconde o passo anterior (se existir)
-    if (todosOsPassos[passoAtual]) {
-        todosOsPassos[passoAtual].style.display = 'none';
-    }
+    modoResumo = false;
+
+    todosOsPassos.forEach(passo => passo.style.display = 'none');
 
     passoAtual = indice;
 
@@ -242,16 +245,39 @@ function irParaPasso(indice) {
 }
 
 function atualizarControles() {
+    const barra = document.getElementById('barra-navegacao');
+    if (!barra) return;
+    
+    barra.style.display = 'flex';
+
     const btnAnterior = document.getElementById('btn-anterior');
     const btnProximo  = document.getElementById('btn-proximo');
     const contador    = document.getElementById('contador-passos');
     const total       = todosOsPassos.length;
 
-    // O botão "Anterior" só faz sentido a partir do segundo passo
-    btnAnterior.disabled = passoAtual === 0;
-
-    // Atualiza o contador "Passo 2 de 5"
-    contador.textContent = `Passo ${passoAtual + 1} de ${total}`;
+    if (modoResumo) {
+        btnAnterior.disabled = false;
+        btnAnterior.onclick = () => irParaPasso(total - 1);
+        btnAnterior.innerHTML = '← Voltar aos passos';
+        
+        contador.textContent = `Resumo Completo`;
+        
+        btnProximo.style.display = 'none';
+    } else {
+        btnAnterior.disabled = passoAtual === 0;
+        btnAnterior.onclick = () => irParaPasso(passoAtual - 1);
+        btnAnterior.innerHTML = '← Anterior';
+        
+        contador.textContent = `Passo ${passoAtual + 1} de ${total}`;
+        
+        btnProximo.style.display = 'inline-block';
+        
+        if (passoAtual === total - 1) {
+            btnProximo.innerHTML = 'Ver Resumo →';
+        } else {
+            btnProximo.innerHTML = 'Próximo →';
+        }
+    }
 }
 
 function criarBarraNavegacao() {
@@ -279,6 +305,8 @@ function avancarOuResumir() {
         return;
     }
 
+    modoResumo = true;
+
     // Se é o último passo, entra no modo resumo: mostra todos os passos de uma vez
     todosOsPassos.forEach(passo => {
         passo.style.display = 'block';
@@ -293,6 +321,5 @@ function avancarOuResumir() {
         MathJax.typesetPromise([document.getElementById('solution-container')]);
     }
 
-    // Esconde a barra de navegação — ela não faz mais sentido no modo resumo
-    document.getElementById('barra-navegacao').style.display = 'none';
+    atualizarControles();
 }
