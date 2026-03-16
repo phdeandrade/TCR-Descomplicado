@@ -385,7 +385,7 @@ function avancarOuResumir() {
 }
 
 /**
- * Copia o resultado final matemático para a área de transferência do usuário.
+ * Copia o resultado para a área de transferência do usuário.
  * @param {string} texto - A string com a resposta.
  */
 function copiarResultado(texto) {
