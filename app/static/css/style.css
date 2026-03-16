@@ -113,6 +113,14 @@ blockquote {
     color: var(--text-muted);
 }
 
+a:focus-visible, 
+button:focus-visible, 
+input:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
 /* ==========================================================================
    4. NAVEGAÇÃO E RODAPÉ
    ========================================================================== */

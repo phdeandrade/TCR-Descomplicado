@@ -92,10 +92,10 @@ function addEquation() {
     newRow.className = 'equation-row';
     
     newRow.innerHTML = `
-        <input type="text" class="eq-input" placeholder="Ex: 2x + 1">
-        ≡ <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9-]/g, '')"> 
-        (mod <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">)
-        <button class="btn-remove" onclick="removeEquation(this)">✖</button>
+        <input type="text" class="eq-input" placeholder="Ex: 2x + 1" aria-label="Expressão da equação (exemplo: 2x + 1)">
+        ≡ <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9-]/g, '')" aria-label="Resultado da congruência"> 
+        (mod <input type="text" class="num-input" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" aria-label="Módulo">)
+        <button class="btn-remove" onclick="removeEquation(this)" aria-label="Remover esta equação" title="Remover equação">✖</button>
     `;
     
     equationsList.appendChild(newRow);
