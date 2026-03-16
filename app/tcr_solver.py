@@ -1,16 +1,29 @@
+"""
+Módulo de motor matemático para o Teorema Chinês dos Restos (TCR).
+Contém a lógica isolada de cada passo da resolução.
+"""
+
 from app.utils import montar_step, unir, formatar_sinal, erro_precoce
 import math
 from functools import reduce
 
-# ============================================================
-# FUNÇÕES DE CADA PASSO
-# ============================================================
-
 def passo1_simplificacao(equacoes):
     """
-    PASSO 1: SIMPLIFICAÇÃO DAS EQUAÇÕES
-    Verifica se há solução individual e reduz cada equação ao formato canônico x ≡ r (mod m).
-    Retorna (linhas_html, restos, modulos) ou interrompe cedo com erro_precoce.
+    Simplifica as equações lineares e reduz cada uma ao formato canônico x ≡ r (mod m).
+    
+    Verifica se existem erros matemáticos ou equações triviais (módulo <= 1 ou x anulado).
+    Caso a equação seja válida, isola a variável, checa a viabilidade da solução 
+    através do MDC e calcula o inverso modular, se necessário.
+
+    Args:
+        equacoes (list): Lista de dicionários, onde cada dicionário representa uma equação
+                         com as chaves 'a' (coeficiente de x), 'b' (termo linear), 
+                         'c' (resultado da congruência) e 'n' (módulo).
+
+    Returns:
+        tuple ou dict: Retorna uma tupla (linhas, restos, modulos) contendo o passo a passo
+                       HTML formatado e as listas de restos e módulos simplificados se houver sucesso.
+                       Retorna um dicionário (erro_precoce) se o sistema for matematicamente impossível.
     """
     linhas = []
     restos = []
@@ -81,9 +94,17 @@ def passo1_simplificacao(equacoes):
 
 def passo2_verificacao(modulos):
     """
-    PASSO 2: VERIFICAÇÃO DO SISTEMA
-    Checa se os novos módulos (já simplificados) são coprimos aos pares.
-    Retorna linhas_html ou interrompe cedo com erro_precoce.
+    Verifica se a condição fundamental do TCR é atendida.
+    
+    Testa todos os pares possíveis de módulos simplificados para garantir 
+    que são estritamente coprimos entre si (MDC igual a 1).
+
+    Args:
+        modulos (list): Lista de inteiros representando os módulos das equações já simplificadas.
+
+    Returns:
+        list ou dict: Retorna uma lista de strings (HTML) descrevendo o processo se todos 
+                      forem coprimos. Retorna um dicionário (erro_precoce) caso falhe.
     """
     linhas = [
         "Para o Teorema Chinês dos Restos (TCR) ser aplicado, os <strong>novos módulos</strong> do sistema "
@@ -117,9 +138,18 @@ def passo2_verificacao(modulos):
 
 def passos3_4_5_tcr(restos, modulos):
     """
-    PASSOS 3, 4 e 5: CÁLCULO DO TCR
-    Calcula M, os módulos parciais, os inversos e aplica a fórmula final.
-    Retorna (linhas_p3, linhas_p4, linhas_p5).
+    Executa os cálculos finais e aplica a fórmula final do TCR.
+    
+    Calcula o Módulo Global (M), os módulos parciais (nk), os seus respectivos
+    inversos modulares (dk) e unifica tudo na congruência final para encontrar o valor de 'x'.
+
+    Args:
+        restos (list): Lista de inteiros contendo as constantes resultantes das equações canônicas.
+        modulos (list): Lista de inteiros contendo os módulos coprimos.
+
+    Returns:
+        tuple: Três listas de strings (linhas_p3, linhas_p4, linhas_p5) contendo 
+               o código HTML documentando o passo a passo matemático das três últimas etapas.
     """
     M = reduce(lambda x, y: x * y, modulos)
 

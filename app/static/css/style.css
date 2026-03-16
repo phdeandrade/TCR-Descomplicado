@@ -1,6 +1,6 @@
-/* ============================================
-   TEMA CLARO (padrão)
-   ============================================ */
+/* ==========================================================================
+   1. VARIÁVEIS DE TEMA (CLARO / ESCURO)
+   ========================================================================== */
 :root {
     --bg-color: #f8f9fa;
     --text-color: #212529;
@@ -20,9 +20,6 @@
     --input-bg: #ffffff;
 }
 
-/* ============================================
-   TEMA ESCURO — redesenhado
-   ============================================ */
 [data-theme="dark"] {
     --bg-color: #0d1117;
     --card-bg: #161b22;
@@ -30,25 +27,21 @@
     --nav-bg: #161b22;
     --input-bg: #0d1117;
     --blockquote-bg: #1c2128;
-
     --text-color: #e6edf3;
     --text-muted: #8b949e;
-
     --primary: #58a6ff;
     --primary-hover: #79c0ff;
-
     --border-color: #30363d;
     --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
     --step-border: #58a6ff;
-
     --danger-color: #f85149;
     --success-color: #3fb950;
     --blockquote-border: #58a6ff;
 }
 
-/* ============================================
-   RESET & BASE
-   ============================================ */
+/* ==========================================================================
+   2. RESET E LAYOUT BASE
+   ========================================================================== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -66,9 +59,63 @@ body {
     line-height: 1.6;
 }
 
-/* ============================================
-   NAVEGAÇÃO
-   ============================================ */
+main {
+    flex: 1;
+    padding: 2.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    animation: fadeIn 0.4s ease;
+}
+
+/* ==========================================================================
+   3. TIPOGRAFIA E ELEMENTOS GERAIS
+   ========================================================================== */
+h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 2rem 0 0.75rem;
+    color: var(--text-color);
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+p {
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+ul {
+    margin: 0 0 1.5rem 1.75rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+
+blockquote {
+    background-color: var(--blockquote-bg);
+    border-left: 4px solid var(--blockquote-border);
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. NAVEGAÇÃO E RODAPÉ
+   ========================================================================== */
 nav {
     background-color: var(--nav-bg);
     padding: 1rem 2rem;
@@ -133,107 +180,109 @@ nav {
     background-color: var(--step-bg);
 }
 
-/* ============================================
-   CONTEÚDO PRINCIPAL
-   ============================================ */
-main {
-    flex: 1;
-    padding: 2.5rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
+.nav-menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    padding: 0.3rem 0.55rem;
+    line-height: 1;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.nav-menu-btn:hover {
+    border-color: var(--primary);
+    background-color: var(--step-bg);
+}
+
+.nav-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    z-index: 200;
+    min-width: 180px;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+}
+
+.nav-dropdown.aberto {
+    display: block;
+}
+
+.nav-dropdown a,
+.nav-dropdown button.theme-toggle-dropdown {
+    display: block;
     width: 100%;
-    animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        max-height: 100px;
-        margin-bottom: 1rem;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-    }
-    to {
-        opacity: 0;
-        max-height: 0;
-        margin-bottom: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-}
-
-.erro-inline {
-    background-color: rgba(248, 81, 73, 0.1);
-    border-left: 4px solid var(--danger-color);
-    color: var(--danger-color);
-    padding: 0.75rem 1rem;
-    border-radius: 0 6px 6px 0;
-    margin-bottom: 1rem;
+    padding: 0.75rem 1.1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.93rem;
     font-weight: 500;
-    font-size: 0.95rem;
-    overflow: hidden;
-    max-height: 100px;
-    animation: fadeIn 0.3s ease;
-}
-
-.erro-inline.sumindo {
-    animation: fadeOut 0.5s ease forwards;
-    overflow: hidden;
-}
-
-/* ============================================
-   TIPOGRAFIA
-   ============================================ */
-h1 {
-    font-size: 1.9rem;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
-    color: var(--primary);
-    letter-spacing: -0.5px;
-}
-
-h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 2rem 0 0.75rem;
-    color: var(--text-color);
-    padding-bottom: 0.4rem;
+    background: none;
+    border: none;
     border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s;
 }
 
-p {
-    line-height: 1.75;
-    margin-bottom: 1rem;
-    color: var(--text-color);
+.nav-dropdown a:last-child,
+.nav-dropdown button.theme-toggle-dropdown:last-child {
+    border-bottom: none;
 }
 
-ul {
-    margin: 0 0 1.5rem 1.75rem;
+.nav-dropdown a:hover,
+.nav-dropdown button.theme-toggle-dropdown:hover {
+    background-color: var(--step-bg);
 }
 
-li {
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
+.nav-dropdown a.ativo {
+    color: var(--primary);
+    font-weight: 600;
 }
 
-blockquote {
-    background-color: var(--blockquote-bg);
-    border-left: 4px solid var(--blockquote-border);
-    padding: 1rem 1.25rem;
-    margin: 1.25rem 0;
-    border-radius: 0 6px 6px 0;
-    font-style: italic;
+footer {
+    background-color: var(--nav-bg);
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.875rem;
     color: var(--text-muted);
 }
 
-/* ============================================
-   INFO BOX
-   ============================================ */
+.social-links {
+    margin-top: 0.5rem;
+}
+
+.social-links a {
+    color: var(--primary);
+    text-decoration: none;
+    margin: 0 0.5rem;
+    transition: opacity 0.2s;
+}
+
+.social-links a:hover {
+    opacity: 0.75;
+}
+
+/* ==========================================================================
+   5. COMPONENTES DO SISTEMA (Caixas, Alertas e Botões)
+   ========================================================================== */
 .info-box {
     background-color: var(--step-bg);
     border-left: 4px solid #3fb950;
@@ -245,9 +294,6 @@ blockquote {
     color: var(--text-color);
 }
 
-/* ============================================
-   CONTAINER DE EQUAÇÕES
-   ============================================ */
 .equation-container {
     background-color: var(--card-bg);
     padding: 2rem;
@@ -285,9 +331,6 @@ blockquote {
 .equation-row .eq-input  { width: 120px; }
 .equation-row .num-input { width: 65px; }
 
-/* ============================================
-   BOTÕES
-   ============================================ */
 .btn {
     padding: 0.6rem 1.2rem;
     border: none;
@@ -350,9 +393,28 @@ blockquote {
     transform: scale(1.15);
 }
 
-/* ============================================
-   CONTAINER DA SOLUÇÃO
-   ============================================ */
+.erro-inline {
+    background-color: rgba(248, 81, 73, 0.1);
+    border-left: 4px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    overflow: hidden;
+    max-height: 100px;
+    animation: fadeIn 0.3s ease;
+}
+
+.erro-inline.sumindo {
+    animation: fadeOut 0.5s ease forwards;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   6. CONTAINER DE RESOLUÇÃO E PASSOS DO TCR
+   ========================================================================== */
 #solution-container {
     display: none;
     margin-top: 2rem;
@@ -377,6 +439,9 @@ blockquote {
     margin-bottom: 1rem;
     border-radius: 8px;
     border-left: 4px solid var(--step-border);
+    overflow-x: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .step-title {
@@ -388,43 +453,19 @@ blockquote {
     letter-spacing: 0.4px;
 }
 
-/* ============================================
-   RODAPÉ
-   ============================================ */
-footer {
-    background-color: var(--nav-bg);
-    text-align: center;
-    padding: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    margin-top: auto;
+.step p,
+.step span,
+.step div {
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    font-size: 0.875rem;
-    color: var(--text-muted);
+.step .MathJax,
+.step mjx-container {
+    overflow-x: auto;
+    max-width: 100%;
 }
 
-.social-links {
-    margin-top: 0.5rem;
-}
-
-.social-links a {
-    color: var(--primary);
-    text-decoration: none;
-    margin: 0 0.5rem;
-    transition: opacity 0.2s;
-}
-
-.social-links a:hover {
-    opacity: 0.75;
-}
-
-/* ============================================
-   BARRA DE NAVEGAÇÃO DOS PASSOS
-   ============================================ */
 #barra-navegacao {
     display: flex;
     justify-content: space-between;
@@ -463,114 +504,40 @@ footer {
     cursor: not-allowed;
 }
 
-
-/* ============================================
-   MENU HAMBÚRGUER — estrutura base (oculto no desktop)
-   ============================================ */
-.nav-menu-btn {
-    display: none;
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    color: var(--text-color);
-    padding: 0.3rem 0.55rem;
-    line-height: 1;
-    transition: border-color 0.2s, background-color 0.2s;
+/* ==========================================================================
+   7. ANIMAÇÕES
+   ========================================================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.nav-menu-btn:hover {
-    border-color: var(--primary);
-    background-color: var(--step-bg);
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        max-height: 100px;
+        margin-bottom: 1rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    to {
+        opacity: 0;
+        max-height: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
 
-/* Dropdown do menu mobile */
-.nav-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 1rem;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: var(--card-shadow);
-    z-index: 200;
-    min-width: 180px;
-    overflow: hidden;
-    animation: fadeIn 0.2s ease;
-}
-
-.nav-dropdown.aberto {
-    display: block;
-}
-
-.nav-dropdown a,
-.nav-dropdown button.theme-toggle-dropdown {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1.1rem;
-    text-decoration: none;
-    color: var(--text-color);
-    font-size: 0.93rem;
-    font-weight: 500;
-    background: none;
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.15s;
-}
-
-.nav-dropdown a:last-child,
-.nav-dropdown button.theme-toggle-dropdown:last-child {
-    border-bottom: none;
-}
-
-.nav-dropdown a:hover,
-.nav-dropdown button.theme-toggle-dropdown:hover {
-    background-color: var(--step-bg);
-}
-
-.nav-dropdown a.ativo {
-    color: var(--primary);
-    font-weight: 600;
-}
-
-/* ============================================
-   CONTEÚDO DO PASSO A PASSO — anti-overflow
-   ============================================ */
-.step {
-    overflow-x: auto;
-    word-break: break-word;
-    overflow-wrap: break-word;
-}
-
-.step p,
-.step span,
-.step div {
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-/* MathJax dentro dos passos não vaza */
-.step .MathJax,
-.step mjx-container {
-    overflow-x: auto;
-    max-width: 100%;
-}
-
-/* ============================================
-   RESPONSIVIDADE — Tablet (≤ 768px)
-   ============================================ */
+/* ==========================================================================
+   8. RESPONSIVIDADE
+   ========================================================================== */
 @media (max-width: 768px) {
-
     nav {
         padding: 0.85rem 1.25rem;
         position: relative;
     }
 
-    /* Oculta links e toggle normais; mostra o botão hambúrguer */
     .nav-links {
         display: none;
     }
@@ -615,12 +582,7 @@ footer {
     }
 }
 
-
-/* ============================================
-   RESPONSIVIDADE — Mobile (≤ 480px)
-   ============================================ */
 @media (max-width: 480px) {
-
     nav {
         padding: 0.75rem 1rem;
     }

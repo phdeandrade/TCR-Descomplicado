@@ -1,6 +1,5 @@
 from flask import render_template, request, jsonify
 from app import app
-# Importamos a lógica que vamos criar para o TCR
 from app.tcr_main import resolver_sistema_tcr
 
 @app.route('/')
@@ -18,6 +17,5 @@ def info():
 @app.route('/resolver', methods=['POST'])
 def resolver():
     dados = request.get_json()
-    # Chama a função de lógica (que está no tcr_solver.py)
     resultado = resolver_sistema_tcr(dados)
     return jsonify(resultado)

@@ -1,26 +1,44 @@
+"""
+Módulo principal de orquestração do Teorema Chinês dos Restos (TCR).
+Integra a formatação visual HTML com as etapas estritas de cálculo matemático.
+"""
+
 from app.utils import montar_step, unir
 from app.tcr_solver import passo1_simplificacao, passo2_verificacao, passos3_4_5_tcr
 
 def resolver_sistema_tcr(dados):
-    """Recebe o JSON do frontend e processa as equações na nova ordem: Simplificação -> Verificação."""
+    """
+    Organiza a resolução do sistema de congruências utilizando o TCR.
+    
+    Esta função processa os dados do frontend seguindo a ordem matemática estrita: simplificação das equações;
+    verificação de coprimos; Caso o sistema seja válido,
+    calcula os passos finais do TCR e compila os resultados em blocos HTML. Caso detecte
+    uma impossibilidade matemática, interrompe a execução e retorna o erro.
+
+    Args:
+        dados (dict): Um dicionário contendo a chave 'equacoes', que armazena uma lista 
+                      de dicionários com os parâmetros 'a', 'b', 'c' e 'n' de cada equação.
+
+    Returns:
+        dict: Um dicionário com a seguinte estrutura:
+              - 'status' (str): "sucesso" se o processamento ocorreu sem falhas de rede/API, 
+                                ou "erro" caso o dicionário esteja vazio.
+              - 'mensagem' (str): O código HTML final contendo os blocos de passos da resolução 
+                                  ou a justificativa matemática formatada para a interrupção.
+    """
+
     equacoes = dados.get('equacoes', [])
+    
     if not equacoes:
         return {"status": "erro", "mensagem": "Nenhuma equação recebida."}
 
-    # ==============================
-    # PASSO 1: SIMPLIFICAÇÃO DAS EQUAÇÕES
-    # ==============================
     resultado_p1 = passo1_simplificacao(equacoes)
     
-    # Se retornou um dict, houve erro (equação sem solução) e já encerra cedo
     if isinstance(resultado_p1, dict):
         return resultado_p1
         
     linhas_p1, restos, modulos = resultado_p1
 
-    # ==============================
-    # PASSO 2: VERIFICAÇÃO DA SOLUÇÃO (COPRIMOS)
-    # ==============================
     resultado_p2 = passo2_verificacao(modulos)
     
     if isinstance(resultado_p2, dict):
@@ -29,14 +47,8 @@ def resolver_sistema_tcr(dados):
         
     linhas_p2 = resultado_p2
 
-    # ==============================
-    # PASSOS 3, 4 e 5: CALCULAR M, INVERSOS E FÓRMULA FINAL
-    # ==============================
     linhas_p3, linhas_p4, linhas_p5 = passos3_4_5_tcr(restos, modulos)
 
-    # ==============================
-    # CONSTRUÇÃO DAS 5 DIVS EM HTML (SUCESSO TOTAL)
-    # ==============================
     explicacao = "".join([
         montar_step("Passo 1: Simplificação das equações", unir(linhas_p1)),
         montar_step("Passo 2: Verificação do sistema", unir(linhas_p2)),

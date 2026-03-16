@@ -1,12 +1,24 @@
-// Índice do passo atualmente visível (começa no primeiro)
+/**
+ * Índice do passo da resolução atualmente visível na tela (inicia em 0).
+ * @type {number}
+ */
 let passoAtual = 0;
 
-// Lista de todos os elementos .step encontrados no DOM
+/**
+ * Armazena as referências de todos os elementos HTML correspondentes aos passos da resolução.
+ * @type {HTMLElement[]}
+ */
 let todosOsPassos = [];
 
-// Variável para saber se estamos na tela final
+/**
+ * Define se a interface está atualmente exibindo o resumo final (todos os passos de uma vez).
+ * @type {boolean}
+ */
 let modoResumo = false;
 
+/**
+ * Inicializa a aplicação configurando o tema visual baseado no cache do navegador.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     const themeBtn = document.querySelector('.theme-toggle');
@@ -20,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/**
+ * Alterna o tema da aplicação entre claro e escuro.
+ */
 function toggleTheme() {
     const body = document.body;
     const themeBtn = document.querySelector('.theme-toggle');
@@ -35,6 +50,10 @@ function toggleTheme() {
     }
 }
 
+/**
+ * Adiciona uma nova linha de input de equação na interface gráfica.
+ * Possui um limite máximo estrito de 5 equações para manter a performance e coerência visual.
+ */
 function addEquation() {
     const equationsList = document.getElementById('equations-list');
     
@@ -58,6 +77,10 @@ function addEquation() {
     equationsList.appendChild(newRow);
 }
 
+/**
+ * Remove uma linha de equação específica da interface, impedindo que o sistema tenha menos de duas equações.
+ * @param {HTMLElement} btnElement - A referência do botão de exclusão que foi clicado.
+ */
 function removeEquation(btnElement) {
     const list = document.getElementById('equations-list');
     const rows = list.querySelectorAll('.equation-row');
@@ -68,15 +91,17 @@ function removeEquation(btnElement) {
     }
 }
 
+/**
+ * Processa a string de uma equação algébrica, validando sua estrutura e extraindo seus coeficientes.
+ * @param {string} eqStr - A equação digitada pelo usuário (ex: "2x - 3" ou "-x").
+ * @returns {Object|null} Retorna os coeficientes estruturados {a: numero, b: numero} ou null se o formato for inválido.
+ */
 function parseEquationString(eqStr) {
     const cleanStr = eqStr.replace(/\s+/g, '');
     
-    // Valida o formato completo antes de qualquer coisa.
-    // Aceita apenas: [sinal] [dígitos] x [sinal dígitos]
-    // Exemplos válidos: x, 2x, -x, x+3, 2x-1, -3x+5
     const formatoValido = /^[+-]?\d*x([+-]\d+)?$/.test(cleanStr);
     if (!formatoValido) {
-        return null; // Rejeita "x-23NK", "xabc", "2x+3y", etc.
+        return null; 
     }
 
     const xMatch = cleanStr.match(/(^|[+-])(\d*)x/);
@@ -100,6 +125,10 @@ function parseEquationString(eqStr) {
     return { a: a, b: b };
 }
 
+/**
+ * Captura, valida e organiza todos os dados dos campos do formulário de equações.
+ * @returns {Object|null} Retorna os dados estruturados contendo o array de equações ou null em caso de falha de validação.
+ */
 function collectEquationsData() {
     const rows = document.querySelectorAll('.equation-row'); 
     const equacoesParaBackend = [];
@@ -139,16 +168,19 @@ function collectEquationsData() {
         }
         
         equacoesParaBackend.push({
-            "a": parsedEq.a,             // termo dependente de x
-            "b": parsedEq.b,             // termo independente com sinal (0 se não houver)
-            "c": cValor,                 // resultado da congruência
-            "n": nValor                  // módulo
+            "a": parsedEq.a,             
+            "b": parsedEq.b,             
+            "c": cValor,                 
+            "n": nValor                  
         });
     }
     
     return { "equacoes": equacoesParaBackend };
 }
 
+/**
+ * Organiza a comunicação com a API do servidor, enviando os dados das equações e montando a interface de resolução.
+ */
 async function generateSteps() {
     const dados = collectEquationsData();
     if (!dados) return; 
@@ -188,38 +220,43 @@ async function generateSteps() {
     }
 }
 
+/**
+ * Cria e exibe um alerta temporário de erro visual para o usuário.
+ * @param {string} mensagem - O texto descritivo do erro a ser exibido.
+ */
 function mostrarErro(mensagem) {
     const container = document.getElementById('mensagem-erro');
     if (!container) return;
 
-    // Garante que qualquer erro anterior seja cancelado antes de mostrar o novo
     container.innerHTML = '';
 
     container.innerHTML = `<div class="erro-inline">⚠️ ${mensagem}</div>`;
     const div = container.querySelector('.erro-inline');
 
     setTimeout(() => {
-        // Dispara a animação de saída
         div.classList.add('sumindo');
         
-        // Remove do DOM só depois que a animação de saída terminar (400ms)
         setTimeout(() => { container.innerHTML = ''; }, 400);
     }, 4000);
 }
 
+/**
+ * Configura o estado inicial da interface gráfica para iniciar a exibição fragmentada dos passos matemáticos.
+ */
 function iniciarNavegacao() {
-    // Captura todos os .step que o backend acabou de inserir no DOM
     todosOsPassos = Array.from(document.querySelectorAll('#solution-container .step'));
     passoAtual = 0;
     modoResumo = false;
 
-    // Esconde todos os passos inicialmente
     todosOsPassos.forEach(passo => passo.style.display = 'none');
 
-    // Mostra o primeiro
     irParaPasso(0);
 }
 
+/**
+ * Oculta todos os passos em andamento e exibe o passo desejado.
+ * @param {number} indice - O índice do passo que deve ser focado na interface.
+ */
 function irParaPasso(indice) {
     modoResumo = false;
 
@@ -227,23 +264,22 @@ function irParaPasso(indice) {
 
     passoAtual = indice;
 
-    // Mostra o passo atual com animação (a classe fadeIn já existe no seu CSS)
     const passoVisivel = todosOsPassos[passoAtual];
     passoVisivel.style.display = 'block';
     passoVisivel.style.animation = 'none';
-    // Força o reflow para reiniciar a animação — truque necessário para o CSS reanimar
-    passoVisivel.offsetHeight;
+    passoVisivel.offsetHeight; 
     passoVisivel.style.animation = 'fadeIn 0.4s ease';
 
-    // Atualiza os botões e o contador depois de mudar o passo
     atualizarControles();
 
-    // Re-renderiza o MathJax apenas no passo atual (muito mais rápido que re-renderizar tudo)
     if (window.MathJax) {
         MathJax.typesetPromise([passoVisivel]);
     }
 }
 
+/**
+ * Sincroniza o estado (ativo, inativo, texto) dos botões da barra de navegação com base no fluxo atual da aplicação.
+ */
 function atualizarControles() {
     const barra = document.getElementById('barra-navegacao');
     if (!barra) return;
@@ -280,8 +316,10 @@ function atualizarControles() {
     }
 }
 
+/**
+ * Renderiza dinamicamente a barra com os botões controladores do fluxo de navegação do passo a passo.
+ */
 function criarBarraNavegacao() {
-    // Evita duplicar a barra se o usuário gerar uma segunda resolução
     const barraExistente = document.getElementById('barra-navegacao');
     if (barraExistente) barraExistente.remove();
 
@@ -293,13 +331,14 @@ function criarBarraNavegacao() {
         <button id="btn-proximo" onclick="avancarOuResumir()">Próximo →</button>
     `;
 
-    // Insere a barra logo após o h2 "Resolução Passo a Passo"
     const h2 = document.querySelector('#solution-container h2');
     h2.insertAdjacentElement('afterend', barra);
 }
 
+/**
+ * Analisa a progressão atual do usuário, ou seja, avança um único passo ou engatilha a visão completa (modo resumo) do cálculo.
+ */
 function avancarOuResumir() {
-    // Se não é o último passo, navega normalmente
     if (passoAtual < todosOsPassos.length - 1) {
         irParaPasso(passoAtual + 1);
         return;
@@ -307,16 +346,13 @@ function avancarOuResumir() {
 
     modoResumo = true;
 
-    // Se é o último passo, entra no modo resumo: mostra todos os passos de uma vez
     todosOsPassos.forEach(passo => {
         passo.style.display = 'block';
-        // Reinicia a animação em cada passo para um efeito cascata suave
         passo.style.animation = 'none';
-        passo.offsetHeight; // força reflow
+        passo.offsetHeight; 
         passo.style.animation = 'fadeIn 0.4s ease';
     });
 
-    // Re-renderiza o MathJax em todo o container, já que agora tudo está visível
     if (window.MathJax) {
         MathJax.typesetPromise([document.getElementById('solution-container')]);
     }
